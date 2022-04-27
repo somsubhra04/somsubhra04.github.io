@@ -1,1 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="description" name="">
+<meta content="" name="author">      
+<meta name="google" content="notranslate" />
+<meta name="author" content="Somsubhra De">
+<meta name="msapplication-tap-highlight" content="no">
+<link rel="shortcut icon" type="image/x-icon" href="">	
+<title></title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+ 
+<style>
+.page_404{ padding:40px 0; background:#fff; font-family: 'Arvo', serif;
+}
 
+.page_404  img{ width:100%;}
+
+.four_zero_four_bg{
+ 
+ background-image: url(/assets/404.gif);
+    height: 400px;
+    background-position: center;
+ }
+ 
+ 
+ .four_zero_four_bg h1{
+ font-size:80px;
+ }
+ 
+  .four_zero_four_bg h3{
+			 font-size:80px;
+			 }
+			 
+			 .link_404{			 
+	color: #fff!important;
+    padding: 10px 20px;
+    background: #39ac31;
+    margin: 20px 0;
+    display: inline-block;}
+	.contant_box_404{ margin-top:-50px;}
+  
+::-moz-selection { /* Code for Firefox */
+  color: white;
+  background: #FF2800;
+}
+
+::selection {
+  color: white;
+  background: #FF2800;
+}  
+</style>
+  </head><body>
+<section class="page_404">
+	<div class="container">
+		<div class="row">	
+		<div class="col-sm-12 ">
+		<div class="col-sm-10 col-sm-offset-1  text-center">
+		<div class="four_zero_four_bg">
+			<h1 class="text-center ">404</h1>
+		
+		
+		</div>
+		
+		<div class="contant_box_404">
+		<h3 class="h2">
+		Looks like you're lost
+		</h3>
+		
+		<p>The page you are looking for is not available!</p>
+		
+		<a href="/" style="text-decoration:none;" class="link_404">Go to Home</a>
+	</div>
+		</div>
+		</div>
+		</div>
+	</div>
+</section>
+<script language=JavaScript>
+//Disable right mouse click Script
+
+var message="Function Disabled!";
+
+function clickIE4(){
+if (event.button==2){
+return false;
+ }
+}
+
+function clickNS4(e){
+if (document.layers||document.getElementById&&!document.all){
+if (e.which==2||e.which==3){
+return false;
+}
+}
+}
+
+if (document.layers){
+document.captureEvents(Event.MOUSEDOWN);
+document.onmousedown=clickNS4;
+}
+else if (document.all&&!document.getElementById){
+document.onmousedown=clickIE4;
+}
+
+document.oncontextmenu=new Function("return false")
+
+</script>
+  </body>
+</html>  
