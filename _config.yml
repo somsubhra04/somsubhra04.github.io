@@ -13,7 +13,7 @@ title_separator          : "-"
 name                     : &name "Somsubhra De"
 description              : &description "Explorer"
 url                      : https://somsubhra04.github.io # the base hostname & protocol for your site
-baseurl                  : "" # the subpath of your site
+baseurl                  : "/" # the subpath of your site
 repository               : "somsubhra04/somsubhra04.github.io"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
