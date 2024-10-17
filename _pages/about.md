@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: ""
+title: "About Me"
 author_profile: true
 redirect_from: 
   - /about/
@@ -11,4 +11,8 @@ I am a 2nd yr undergrad in the Data science programme at [IIT Madras](https://ww
 
 I'm interested about AI-ML (especially Generative and Responsible AI), NLP, DL, Data analysis & programming.
 
+<details markdown="1"><summary><b>More ...</b></summary>
+{: .notice--info}
 Btw, incase you aren't a Bengali, I'm pronounced as "SHome-SHuBH-ro" :)
+{: .notice--info}
+</details>
