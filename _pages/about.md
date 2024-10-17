@@ -13,6 +13,6 @@ I'm interested about AI-ML (especially Generative and Responsible AI), NLP, DL, 
 
 <details markdown="1"><summary><b>More ...</b></summary>
 {: .notice--info}
-Btw, incase you aren't a Bengali, I'm pronounced as "SHome-SHuBH-ro" :)
+Btw, incase you aren't a Bengali, I'm pronounced as "SHome-SHuBH-ro" (সোমশুভ্র) :) I am named by my maternal grandmother. Here's what ChatGPT (almost accurately) states when questioned the meaning -  "Derived from Sanskrit, it can be broken down into two parts: 'Soma' which refers to the moon, and 'Subhra' meaning bright or pure. Thus, the name can be interpreted as 'bright like the moon' or 'pure moonlight'"
 {: .notice--info}
 </details>
