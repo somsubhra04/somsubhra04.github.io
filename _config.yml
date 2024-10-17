@@ -13,8 +13,8 @@ title_separator          : "-"
 name                     : &name "Somsubhra De"
 description              : &description "Explorer"
 url                      : https://somsubhra04.github.io # the base hostname & protocol for your site
-baseurl                  : "/" # the subpath of your site
-repository               : "somsubhra04/somsubhra04.github.io"
+baseurl                  : "" # the subpath of your site
+repository               : "somsubhra04.github.io/"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
