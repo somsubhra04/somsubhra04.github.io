@@ -12,7 +12,7 @@ title                    : "My Webpage!"
 title_separator          : "-"
 name                     : &name "Somsubhra De"
 description              : &description "Explorer"
-url                      : https://somsubhra04.github.io # the base hostname & protocol for your site
+url                      : https://somsubhra04.github.io/ # the base hostname & protocol for your site
 baseurl                  : "" # the subpath of your site
 repository               : "somsubhra04.github.io/"
 
@@ -21,7 +21,7 @@ repository               : "somsubhra04.github.io/"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "me.png"
   name             : "Somsubhra"
   pronouns         : "he/him"  
   bio              : "Undergrad, ML Enthusiast"
