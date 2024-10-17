@@ -12,6 +12,7 @@ author_profile: true
 {% include base_path %}
 
 ## Conference Proceedings
+
 * [Paper](https://aclanthology.org/2023.findings-emnlp.831){: .btn .btn--success .btn--small}{: .align-right}
 <sub>Shaurya Vats, Atharva Zope, <ins>Somsubhra De</ins>, Anurag Sharma, Upal Bhattacharya, Shubham Nigam, Shouvik Guha, Koustav Rudra, Kripabandhu Ghosh  
 *LLMs – the Good, the Bad or the Indispensable?: A Use Case on Legal Statute Prediction and Legal Judgment Prediction on Indian Court Cases*  
@@ -19,7 +20,7 @@ author_profile: true
 
 ## Workshop Proceedings
 
-* [Preprint](https://arxiv.org/abs/2312.10626){: .btn .btn--success .btn--info}{: .align-right}
+* [Preprint](https://arxiv.org/abs/2312.10626){: .btn .btn--info .btn--small}{: .align-right}
 <sub><ins>Somsubhra De</ins>, Shaurya Vats  
 *Decoding Concerns: Multi-label Classification of Vaccine Sentiments in Social Media*  
 **FIRE Workshop Proceedings** (2023).</sub>
