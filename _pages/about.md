@@ -9,7 +9,7 @@ redirect_from:
 
 I am a 2nd yr undergrad in the Data science programme at [IIT Madras](https://www.iitm.ac.in/) and currently a research intern (selected through [SPARK](https://www.iitr.ac.in/gati/sparkinternship.html)) at the CANDLE Research Lab, [IIT Roorkee](https://www.iitr.ac.in/). I've worked on 'LLMs in Question-Answer-Explanation tasks and Legal domain' while I was a research intern last year at the CDS department, [IISER Kolkata](https://www.iiserkol.ac.in/).
 
-I'm interested in <code style="color:blue">Generative and Responsible AI</code>, <code style="color:pink">LLMs</code> and <code style="color:green">NLP</code>.
+I'm interested in <code style="color:blue">Generative and Responsible AI</code>, <code style="color:red">LLMs</code> and <code style="color:green">NLP</code>.
 
 <details markdown="1"><summary><b>More ...</b></summary>
 {: .notice--info}
