@@ -18,7 +18,7 @@ author_profile: true
 <br><sub>Shaurya Vats, Atharva Zope, <ins>Somsubhra De</ins>, Anurag Sharma, Upal Bhattacharya, Shubham Nigam, Shouvik Guha, Koustav Rudra, Kripabandhu Ghosh    
 **Accepted to Findings of the Association for Computational Linguistics: EMNLP** (2023).</sub>
 
-## Workshop Proceedings
+## Workshop and Shared Tasks
 
 * [Preprint](https://arxiv.org/abs/2312.10626){: .btn .btn--info .btn--small}{: .align-right}
 *Decoding Concerns: Multi-label Classification of Vaccine Sentiments in Social Media*
