@@ -1,11 +1,11 @@
 ---
-title: 'Trying LLMs on Google QAE'
+title: 'Trying LLMs on Google QED'
 date: 2023-05-15
 permalink: /posts/first-task-llms/
 tags:
-  - cool posts
-  - category1
-  - category2
+  - GPT
+  - QAE
+  - Prompt Engineering
 ---
 
 This is a sample blog post. Lorem ipsum I can't remember the rest of lorem ipsum and don't have an internet connection right now. Testing testing testing this blog post. Blog posts are cool.
