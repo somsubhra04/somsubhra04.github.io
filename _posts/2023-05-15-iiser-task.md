@@ -26,17 +26,17 @@ and \( f \) is the function that maps the tuple to an explanation.
 
 We might, for example, define:
 
-\[
+$$
 f(q, c, a) = \arg\max_e p(e \mid q, c, a; \theta)
-\]
+$$
 
 under some model \( p(\dots) \).  
 
 The evaluation measure is then given by:
 
-\[
+$$
 \frac{1}{|\varepsilon|} \sum_{(q,c,a,e) \in \varepsilon} l_1(e, f(q, c, a))
-\]
+$$
 
 where \( l_1(e, \hat{e}) \) is a per-example evaluation measure indicating how close \( \hat{e} \) is to \( e \).
 
