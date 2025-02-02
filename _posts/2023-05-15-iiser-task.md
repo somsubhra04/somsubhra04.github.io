@@ -8,7 +8,11 @@ tags:
   - Prompt Engineering
 ---
 
-This is a part of the work carried out during the IISERK Summer Student Research Program in 2023. Feel free to reach out if you have any questions!
+This is a part of the preliminary work carried out during the IISERK Summer Student Research Program in 2023. Feel free to reach out if you have any questions!
+
+* Any pre-requisites?
+  * It will be great if you watch the online lectures of [ChatGPT Prompt Engineering for Developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) by AndrewNG (Around 9 tutorials will be available)
+  * An OpenAI account (a free account would do for testing! Generate an API key)
 
 So, what's QED ❓
 ======
