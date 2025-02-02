@@ -20,17 +20,16 @@ Via this experiment, we are trying to assess the effectiveness of GPT in Questio
 
 Let's get started with the 1st sub-task 🤝
 ------
-Given a \((q, c, a)\) triple, make a prediction \(\hat{e} = f(q, c, a)\),  
-where \( q \) refers to the question, \( c \) refers to the context, \( a \) refers to the answer,  
-and \( f \) is the function that maps the tuple to an explanation.  
-
+Given a \\((q, c, a)\\) triple, we have to make a prediction \\(\hat{e} = f(q, c, a)\\),  
+where \\(q\\) refers to the question, \\(c\\) refers to the context, \\(a\\) refers to the answer  
+and \\(f\\) is the function that maps the tuple to an explanation.
 We might, for example, define:
 
 $$
 f(q, c, a) = \arg\max_e p(e \mid q, c, a; \theta)
 $$
 
-under some model \( p(\dots) \).  
+under some model \\(p(\dots)\\).  
 
 The evaluation measure is then given by:
 
@@ -38,6 +37,6 @@ $$
 \frac{1}{|\varepsilon|} \sum_{(q,c,a,e) \in \varepsilon} l_1(e, f(q, c, a))
 $$
 
-where \( l_1(e, \hat{e}) \) is a per-example evaluation measure indicating how close \( \hat{e} \) is to \( e \).
+where \\(l_1(e, \hat{e})\\) is a per-example evaluation measure indicating how close \\(\hat{e}\\) is to \\(e\\).
 
-Basically, this is an explanation generation task!
+Basically, this is an **explanation generation** task!
