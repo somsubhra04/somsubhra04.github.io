@@ -8,10 +8,14 @@ tags:
   - Prompt Engineering
 ---
 
-This is a part of the preliminary work carried out during the IISERK Summer Student Research Program in 2023. Feel free to reach out if you have any questions!
+This is a part of the preliminary work carried out during the IISER Summer Student Research Program in 2023. Feel free to reach out if you have any questions!
+
+{: .notice--warning}
+This page is under development :D
+{: .notice--warning}
 
 * Any pre-requisites?
-  * It will be great if you watch the online lectures of [ChatGPT Prompt Engineering for Developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) by AndrewNG (Around 9 tutorials will be available)
+  * It will be great if you can watch the online lectures of [ChatGPT Prompt Engineering for Developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) by Andrew NG (Around 9 tutorials will be available)
   * An OpenAI account (a free account would do for testing! Generate an API key)
 
 So, what's QED ❓
@@ -26,7 +30,7 @@ Let's get started with the 1st sub-task 🤝
 ------
 Given a \\((q, c, a)\\) triple, we have to make a prediction \\(\hat{e} = f(q, c, a)\\),  
 where \\(q\\) refers to the question, \\(c\\) refers to the context, \\(a\\) refers to the answer  
-and \\(f\\) is the function that maps the tuple to an explanation.
+and \\(f\\) is the function that maps the tuple to an `explanation`.
 We might, for example, define:
 
 $$
