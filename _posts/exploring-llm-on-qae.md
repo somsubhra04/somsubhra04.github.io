@@ -1,7 +1,7 @@
 ---
-title: 'Blog Post number 1'
-date: 2012-08-14
-permalink: /posts/2012/08/blog-post-1/
+title: 'Trying LLMs on Google QAE'
+date: 2023-05-15
+permalink: /posts/first-task-llms/
 tags:
   - cool posts
   - category1
