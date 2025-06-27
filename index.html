@@ -75,8 +75,6 @@ a:not(.btn):hover {
 a:not(.btn):hover::after {
   transform: scaleX(1);
 }
-
-
     footer {
       background: #f1f1f1;
       padding: 1.5rem 0;
@@ -84,6 +82,30 @@ a:not(.btn):hover::after {
       font-size: 0.9rem;
       color: #666;
     }
+/* Override Bootstrap collapse to act like a dropdown panel on small screens */
+@media (max-width: 767.98px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 60px;  /* Just below header */
+    right: 0;
+    width: 220px;  /* Small fixed width */
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 1050; /* above content */
+  }
+
+  /* Make sure the ul stacks vertically */
+  .navbar-collapse ul.navbar-nav {
+    flex-direction: column;
+  }
+
+  .navbar-collapse.show {
+    display: block !important; /* Bootstrap collapse toggles display */
+  }
+}
   </style>
 </head>
 <body>
