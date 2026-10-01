@@ -1,0 +1,335 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;👋&lt;/text&gt;&lt;/svg&gt;"><meta name="generator" content="Astro v7.3.5"><title>Logit-Lens Layer Probing for InternVL3 — Somsubhra/সোমশুভ্র</title><meta name="description" content="A random mini experiment applying logit-lens probing to InternVL3 on our aerial imagery dataset"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- Set theme before first paint to avoid a flash of the wrong theme. --><script>
+      (function () {
+        var dark =
+          localStorage.theme === 'dark' ||
+          (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+      })();
+    </script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CYDbzu1r.js"></script><link rel="stylesheet" href="/_astro/BaseLayout.0n5G7Ukm.css"><style>[data-astro-transition-scope="astro-nfpogox7-1"] { view-transition-name: page-root; }@layer astro { ::view-transition-old(page-root) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(page-root) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(page-root) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(page-root) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-nfpogox7-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-nfpogox7-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-nfpogox7-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-nfpogox7-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-nfpogox7-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-nfpogox7-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-nfpogox7-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-nfpogox7-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head><body class="bg-[#FBFBFB] text-[#37352F] dark:bg-[#191919] dark:text-[#E6E6E6] font-sans antialiased selection:bg-fuchsia-100 dark:selection:bg-fuchsia-950"><div data-astro-transition-scope="astro-nfpogox7-1" class="max-w-2xl mx-auto px-6 py-8 sm:py-16 md:py-20"><!--<header class="flex items-center justify-between mb-12 sm:mb-16 relative">--><header class="sticky top-0 z-40 -mx-6 px-6 py-3 mb-12 sm:mb-16
+  bg-[#FBFBFB]/80 dark:bg-[#191919]/80 backdrop-blur-md
+  flex items-center justify-between relative"><a href="/" class="flex items-center gap-3 group"><div class="w-9 h-9 rounded-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center font-semibold text-sm group-hover:scale-105 transition transform shadow-sm"><!-- {site.emoji} --><img src="/hobbes_2.jpeg" alt="hobbes"></div><span class="font-semibold text-sm tracking-tight text-black dark:text-white">Somsubhra/সোমশুভ্র</span></a><!-- Desktop Nav --><nav class="hidden sm:flex items-center gap-6 text-sm font-medium text-neutral-600 dark:text-neutral-400"><a href="/" class="hover:text-brand-light dark:hover:text-brand-dark transition hover-underline">About</a><a href="/news" class="hover:text-brand-light dark:hover:text-brand-dark transition hover-underline">News</a><a href="/publications" class="hover:text-brand-light dark:hover:text-brand-dark transition hover-underline">Publications</a><a href="/writings" class="hover:text-brand-light dark:hover:text-brand-dark transition hover-underline">Writings</a><button data-action="toggle-theme" class="p-2 rounded-lg hover:bg-neutral-200/60 dark:hover:bg-neutral-800 transition" aria-label="Toggle Dark Mode"><svg data-theme-icon class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg></button></nav><!-- Mobile Controls --><div class="flex items-center gap-2 sm:hidden"><button data-action="toggle-theme" class="p-2 rounded-lg hover:bg-neutral-200/60 dark:hover:bg-neutral-800 transition" aria-label="Toggle Dark Mode"><svg data-theme-icon class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg></button><button data-action="toggle-menu" class="p-2 rounded-lg hover:bg-neutral-200/60 dark:hover:bg-neutral-800 transition" aria-label="Open Menu"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button></div></header><!-- Mobile Menu Drawer --><!--<div
+  id="mobile-menu"
+  class="hidden sm:hidden mb-8 p-4 bg-neutral-100 dark:bg-neutral-800/80 rounded-xl space-y-3 text-sm font-medium border border-neutral-200/60 dark:border-neutral-700/50"
+>--><!--<div
+  id="mobile-menu"
+  class="hidden fixed left-4 right-4 top-16 z-50 p-4
+    bg-white dark:bg-neutral-900 shadow-xl
+    rounded-xl space-y-3 text-sm font-medium
+    border border-neutral-200 dark:border-neutral-800"
+>
+  {nav.map((item) => (
+    <a
+      href={withBase(item.href)}
+      data-action="close-menu"
+      class:list={[
+        'block py-1 hover:text-brand-light dark:hover:text-brand-dark transition',
+        { 'text-black dark:text-white': isActive(item.href) },
+      ]}
+    >
+      {item.label}
+    </a>
+  ))}
+</div>--><div id="mobile-menu" class="hidden fixed inset-0 z-50"><!-- dimmed backdrop — click it to close --><div data-action="close-menu" class="absolute inset-0"></div><!-- actual menu panel --><div class="absolute left-4 right-4 top-16 p-4
+    bg-white dark:bg-neutral-900 shadow-xl
+    rounded-xl space-y-3 text-sm font-medium
+    border border-neutral-200 dark:border-neutral-800"><div class="flex justify-end"><button data-action="close-menu" aria-label="Close menu" class="p-1 -mr-1 -mt-1 text-neutral-500 hover:text-brand-light dark:hover:text-brand-dark transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><a href="/" data-action="close-menu" class="block py-1 hover:text-brand-light dark:hover:text-brand-dark transition">About</a><a href="/news" data-action="close-menu" class="block py-1 hover:text-brand-light dark:hover:text-brand-dark transition">News</a><a href="/publications" data-action="close-menu" class="block py-1 hover:text-brand-light dark:hover:text-brand-dark transition">Publications</a><a href="/writings" data-action="close-menu" class="block py-1 hover:text-brand-light dark:hover:text-brand-dark transition">Writings</a></div></div><main class="space-y-16 sm:space-y-20"><article class="space-y-8"><a href="/writings" class="text-xs font-medium text-neutral-500 hover:text-brand-light dark:hover:text-brand-dark transition inline-flex items-center gap-1">← All writings</a><header class="space-y-3"><h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-black dark:text-white leading-tight">Logit-Lens Layer Probing for InternVL3</h1><p class="text-sm text-neutral-500 dark:text-neutral-400">A random mini experiment applying logit-lens probing to InternVL3 on our aerial imagery dataset</p><div class="flex flex-wrap items-center gap-3 text-xs text-neutral-400"><span>July 15, 2026</span><span aria-hidden="true">·</span><span>7 min read</span></div><div class="flex flex-wrap gap-2 pt-1"><span class="text-[11px] px-2 py-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 text-neutral-500 dark:text-neutral-400">#logit lens</span><span class="text-[11px] px-2 py-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 text-neutral-500 dark:text-neutral-400">#hallucination detection</span><span class="text-[11px] px-2 py-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 text-neutral-500 dark:text-neutral-400">#internvl</span></div></header><div class="post-content"><p><strong>TL;DR:</strong> Using a layer-by-layer logit-lens hook, I probed the hidden state representations of fine-tuned InternVL3-2B and 8B models across 28 layers. The 2B model settles on the final answer earlier than the 8B model. Most early and middle layers are noisy, with the correct answer emerging mainly in the final third of the network.</p>
+<p>In multimodal vision-language models (VLMs), detecting hallucination-identifying objects, attributes, counts, relationships mentioned in text that do not actually exist in an image—requires tightly bound visual grounding and text alignment.</p>
+<p>When a fine-tuned VLM like <a href="https://internvl.github.io/blog/2025-04-11-InternVL-3.0/">InternVL3</a> outputs a hallucination flag, at what depth (layer) does this decision form? Does a larger model settle on its output earlier?</p>
+<p>To check this, a probing was performed using <strong>logit-lens</strong> across two model variants: <strong>InternVL3-2B</strong> and <strong>InternVL3-8B</strong>.</p>
+<hr>
+<h2 id="experimental-setup"><a href="#experimental-setup">Experimental Setup</a></h2>
+<h3 id="task--dataset-format"><a href="#task--dataset-format">Task &#x26; Dataset Format</a></h3>
+<p>The models were evaluated on 1232 samples of our <a href="https://huggingface.co/datasets/NLIP-lab/LID">IITH LID</a>-test dataset (structured accordingly for MS-Swift fine-tuning). The models receive an image and a candidate caption, and are instructed to output either:</p>
+<ol>
+<li><code>"None"</code> if no hallucination exists.</li>
+<li>A comma-separated list of hallucinated words/phrases if inconsistencies exist.</li>
+</ol>
+<p>An instance of the test structured file looks like this:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">[</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    {</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        "messages"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: [</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            {</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">                "role"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"system"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">                "content"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"You are InternVL3, a multimodal model that reads images and text. Your task is to detect hallucinated words in image descriptions. Hallucinations are objects, counts, positions, attributes, relationships, or actions/details not present in the image. Ignore subjective interpretations.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Input: an image and a candidate description.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Output format: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">- </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">None</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> if the description fully matches the image.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">- Otherwise, a comma-separated list of hallucinated words/phrases. </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Do not add any extra commentary. Be conservative - only flag clear visual inconsistencies.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            {</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">                "role"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"user"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">                "content"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Image: &#x3C;image> Description: The image features a large construction site with a building under construction. The building is surrounded by scaffolding, and there are several construction workers on the site. The workers are scattered throughout the scene, with some closer to the building and others further away.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">In addition to the workers, there are two trucks visible in the scene, one near the left side of the image and the other towards the right side. The presence of these vehicles suggests that they may be involved in the construction process or transporting materials to the site.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">\n\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Find hallucinated words from the description that don't match the image."</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            {</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">                "role"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"assistant"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">                "content"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"two trucks"</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        ],</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        "images"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: [</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">            "/path/to/image.jpg"</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        ]</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    }, </span><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic">...</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">]</span></span></code></pre>
+<h3 id="how-probing-works"><a href="#how-probing-works">How probing works</a></h3>
+<p><code>LayerProbe</code> registers a forward hook on every decoder layer
+(<code>model.language_model.model.layers</code>). During <code>model.chat(...)</code>, each hook
+grabs the hidden state at the last token position (<code>hidden[:, -1:, :]</code>) after that layer runs. Because generation is autoregressive, one new token’s hidden state is captured per layer per generation step. Concatenating these across steps reconstructs a per-layer “what would this layer have output” sequence for the whole generated response.</p>
+<p>After generation, <code>decode_per_layer</code> passes each layer’s collected hidden states through the model’s final <code>norm</code> and <code>lm_head</code>, argmaxes the logits and decodes the resulting token ids. This gives one decoded string per layer, per example — the layer’s “guess” at the final output if you stopped the network there.</p>
+<p>This is a logit-lens on the generation trajectory (one hidden vector
+per step, taken with KV-cache), not a single-pass probe over a full prefill sequence.</p>
+<p>The core of it, straight from <code>probe_layers.py</code>:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> LayerProbe</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">    def</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> __init__</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(self, language_model):</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.lm </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> language_model</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.layers </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.lm.model.layers</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.norm </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.lm.model.norm</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.lm_head </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.lm.lm_head</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.handles </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> []</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.trace </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> {i: [] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">for</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> i </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">in</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> range</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">len</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.layers))}</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">    def</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> _make_hook</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(self, idx):</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">        def</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> hook</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(module, inputs, output):</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            hidden </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> output[</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">if</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> isinstance</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(output, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">tuple</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">else</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> output</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">            self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.trace[idx].append(hidden[:, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">-</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:, :].detach())</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> hook</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">    def</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> __enter__</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(self):</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">        for</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> i, layer </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">in</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> enumerate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.layers):</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">            self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.handles.append(layer.register_forward_hook(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">._make_hook(i)))</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">        return</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> self</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">    def</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> __exit__</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(self, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">*</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">args):</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">        for</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> h </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">in</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.handles:</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            h.remove()</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">    def</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> decode_per_layer</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(self, tokenizer):</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        results </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> {}</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">        for</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> idx, hiddens </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">in</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.trace.items():</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">            if</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> not</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> hiddens:</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">                continue</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            seq </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> torch.cat(hiddens, </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">dim</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># (1, num_gen_steps, hidden)</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">            with</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> torch.no_grad():</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">                logits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.lm_head(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.norm(seq))</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            token_ids </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> logits.argmax(</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">dim</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=-</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)[</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">].tolist()</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            results[</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">f</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"layer_</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">{</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">idx</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">}</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> tokenizer.decode(token_ids, </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">skip_special_tokens</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">True</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> results</span></span></code></pre>
+<p>Used as a context manager around <code>model.chat(...)</code>, so hooks are attached
+only for the duration of one generation and removed right after:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">with</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> LayerProbe(model.language_model) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">as</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> probe:</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">    with</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> torch.no_grad():</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        response </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> model.chat(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">            tokenizer, pixel_values, question, gen_config, </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">history</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">None</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">return_history</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">False</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        )</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    layer_outputs </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> probe.decode_per_layer(tokenizer)</span></span></code></pre>
+<h3 id="running-it"><a href="#running-it">Running it</a></h3>
+<p>After fine-tuning on the <a href="https://huggingface.co/datasets/NLIP-lab/LID">LID train</a> data, we use the best trained checkpoint for probing.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">CUDA_VISIBLE_DEVICES</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> python path</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">to</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">probe_layers.py \</span></span>
+<span class="line"><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic">    --</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">val_dataset </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">path</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">to</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">test_structured_internvl3.json \</span></span>
+<span class="line"><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic">    --</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">model_path path</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">to</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">sft_checkpoints</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">internvl3_2b</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">best</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">ckpt</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">merged \</span></span>
+<span class="line"><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic">    --</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">output layer_probe_2b.jsonl \</span></span>
+<span class="line"><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic">    --</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">max_new_tokens </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">32</span></span></code></pre>
+<p>The probe file runs inference and dumps per-layer decoded predictions to JSONL, a row may look like this:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">  "index"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">  "image"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"path/to/image.jpg"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">  "ground_truth"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"two trucks"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">  "final_generation"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"trucks"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">  "layer_predictions"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: {</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">"layer_0"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"..."</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">"layer_1"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"..."</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic">...,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> "layer_27"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"..."</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="analysis"><a href="#analysis">Analysis</a></h2>
+<p><em>Note: The codes for the plots and the analysis on the jsonl files were generated using Gemini.</em></p>
+<p><img alt="Convergence and density" loading="lazy" decoding="async" width="1387" height="487" src="/_astro/convergence_and_density.CU4cnRdx_Z1d7UK7.webp"></p>
+<p><strong>Left — convergence to final output</strong> 2B sits around 10–13% match through layers 0–14, then jumps to ~74% at layer 15 and gradually to 100% by layer 27. 8B stays at 0% match through layer 19, jumps to ~30% at layer 20, and 60s% by layer 26 before reaching 100% at layers 27–28.</p>
+<p><strong>Right — KDE</strong> 2B has a small early bump near
+0.1 depth plus a dominant peak around 0.55 normalized depth. 8B’s
+distribution is concentrated later, with peaks around 0.72–0.75 and 0.9–0.95
+depth — consistent with the later jump seen in the convergence curve.</p>
+<h3 id="layer-to-layer-stability-heatmaps"><a href="#layer-to-layer-stability-heatmaps">Layer-to-layer stability heatmaps</a></h3>
+<p><img alt="2B stability heatmap" loading="lazy" decoding="async" width="923" height="787" src="/_astro/stability_heatmap_2b.BUMI9c9n_Z1wjJeX.webp"></p>
+<p><img alt="8B stability heatmap" loading="lazy" decoding="async" width="923" height="787" src="/_astro/stability_heatmap_8b.Dw2d7hiL_16NiJW.webp"></p>
+<p>Predictions are similar across nearby layers, especially in small groups like L3–L5 and L8–L12. In the later part of the network, predictions become highly similar across many layers (about L17–L27 in the 2B model and L20–L27 in the 8B model), once the predictions get close to the final answer.</p>
+<h3 id="correct-vs-incorrect-predictions"><a href="#correct-vs-incorrect-predictions">Correct vs. incorrect predictions</a></h3>
+<p><img alt="2B correct vs incorrect" loading="lazy" decoding="async" width="1752" height="819" src="/_astro/correct_vs_incorrect_2b._PoOUSX7_Z1RMUoq.webp"></p>
+<p><img alt="8B correct vs incorrect" loading="lazy" decoding="async" width="1752" height="819" src="/_astro/correct_vs_incorrect_8b.BS_xbabH_Z119DhY.webp"></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Model</th><th>Correct</th><th>Incorrect</th><th>Total</th></tr></thead><tbody><tr><td>InternVL3-2B</td><td>904</td><td>328</td><td>1,232</td></tr><tr><td>InternVL3-8B</td><td>969</td><td>263</td><td>1,232</td></tr></tbody></table>
+<p>The two heatmaps within each pair look qualitatively similar. Whatever drives the incorrect answers isn’t showing up as a distinct layer-agreement pattern here.</p>
+<h3 id="an-example"><a href="#an-example">An example</a></h3>
+<p>Example 0, InternVL3-2B. Ground truth: <code>two trucks</code>. Final output: <code>trucks</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Layer</th><th>Decoded output</th></tr></thead><tbody><tr><td>layer_0</td><td><code>wh multiplicマン</code></td></tr><tr><td>layer_1</td><td><code>with�loads</code></td></tr><tr><td>layer_2</td><td><code>﻿� car</code></td></tr><tr><td>layer_3</td><td><code>sTac trucks</code></td></tr><tr><td>layer_4</td><td><code>s especially trucks</code></td></tr><tr><td>layer_5</td><td><code>ss trucks</code></td></tr><tr><td>layer_6</td><td><code>s limbloads</code></td></tr><tr><td>layer_7</td><td><code> Group� vehicles</code></td></tr><tr><td>layer_8</td><td><code>Aline car</code></td></tr><tr><td>layer_9</td><td><code>s�-mounted</code></td></tr><tr><td>layer_10</td><td><code>s谢邀loads</code></td></tr><tr><td>layer_11</td><td><code>谢邀manship</code></td></tr><tr><td>layer_12</td><td><code>谢邀manship</code></td></tr><tr><td>layer_13</td><td><code>谢邀manship</code></td></tr><tr><td>layer_14</td><td><code>0谢邀 gim</code></td></tr><tr><td>layer_15</td><td><code> None谢邀manship</code></td></tr><tr><td>layer_16</td><td><code>沓manship</code></td></tr><tr><td>layer_17</td><td><code>觋olver</code></td></tr><tr><td>layer_18</td><td><code>None院副院长 are</code></td></tr><tr><td>layer_19</td><td><code>None委宣传auce</code></td></tr><tr><td>layer_20</td><td><code>None诓,</code></td></tr><tr><td>layer_21</td><td><code>Noneucks,</code></td></tr><tr><td>layer_22</td><td><code>Noneucks</code></td></tr><tr><td>layer_23</td><td><code> truckiggers,</code></td></tr><tr><td>layer_24</td><td><code> truck trucks</code></td></tr><tr><td>layer_25</td><td><code>Noneucks</code></td></tr><tr><td>layer_26</td><td><code>trucks,</code></td></tr><tr><td>layer_27</td><td><code>trucks</code></td></tr></tbody></table>
+<p>The early layers produce unrelated tokens. Some middle layers repeatedly produce unrelated text. The output only starts looking like “trucks” around layer 23 and becomes stable by layers 26–27.</p></div><nav class="text-xs border-t border-neutral-200 dark:border-neutral-800 pt-4 space-y-2"><p class="font-semibold text-neutral-400 uppercase tracking-wider text-[11px]">On this page</p><ul class="space-y-1"><li style="margin-left: 0rem"><a href="#experimental-setup" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">Experimental Setup</a></li><li style="margin-left: 0.75rem"><a href="#task--dataset-format" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">Task &amp; Dataset Format</a></li><li style="margin-left: 0.75rem"><a href="#how-probing-works" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">How probing works</a></li><li style="margin-left: 0.75rem"><a href="#running-it" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">Running it</a></li><li style="margin-left: 0rem"><a href="#analysis" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">Analysis</a></li><li style="margin-left: 0.75rem"><a href="#layer-to-layer-stability-heatmaps" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">Layer-to-layer stability heatmaps</a></li><li style="margin-left: 0.75rem"><a href="#correct-vs-incorrect-predictions" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">Correct vs. incorrect predictions</a></li><li style="margin-left: 0.75rem"><a href="#an-example" class="text-neutral-500 dark:text-neutral-400 hover:text-brand-light dark:hover:text-brand-dark transition">An example</a></li></ul></nav><nav class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-800 text-sm"><a href="/writings/coding-before-ai" class="group p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:border-brand-light dark:hover:border-brand-dark transition"><span class="block text-[11px] text-neutral-400 mb-1">← Previous</span><span class="font-medium group-hover:text-brand-light dark:group-hover:text-brand-dark transition">The Hours That Didn&#39;t Feel Wasted</span></a><div></div></nav></article></main><footer class="mt-20 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4"><p>This website has a better <a href="https://www.websitecarbon.com/website/somsubhra04-github-io/" target="_blank">carbon-footprint rating than 96% of the other sites!</a>.<br>© 2026 Somsubhra/সোমশুভ্র. Built using AstroJS. You may adapt this template with credits.</p><div class="flex items-center gap-4"><a href="/rss.xml" class="hover:text-brand-light dark:hover:text-brand-dark transition">RSS Feed</a><a href="https://github.com/somsubhra04/somsubhra04.github.io" target="_blank" rel="noopener noreferrer" class="hover:text-brand-light dark:hover:text-brand-dark transition">Will open-source the Code</a></div></footer></div><button id="back-to-top" data-action="scroll-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-40 w-10 h-10 rounded-full bg-black text-white dark:bg-white dark:text-black shadow-lg flex items-center justify-center opacity-0 translate-y-2 pointer-events-none transition-all duration-200 hover:bg-brand-light dark:hover:bg-brand-dark dark:hover:text-black"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg></button><script type="module">function e(){return document.documentElement.classList.contains(`dark`)}function t(){let t=e();document.querySelectorAll(`[data-theme-icon]`).forEach(e=>{e.innerHTML=t?`<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>`:`<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>`})}function n(e){document.documentElement.classList.toggle(`dark`,e),localStorage.theme=e?`dark`:`light`,t()}function r(){n(!e())}function i(){let e=document.getElementById(`back-to-top`);if(!e)return;let t=()=>{window.scrollY>400?e.classList.remove(`opacity-0`,`translate-y-2`,`pointer-events-none`):e.classList.add(`opacity-0`,`translate-y-2`,`pointer-events-none`)};window.removeEventListener(`scroll`,window.__backToTopScroll),window.__backToTopScroll=t,window.addEventListener(`scroll`,t,{passive:!0}),t()}function a(){document.getElementById(`mobile-menu`)?.classList.add(`hidden`)}async function o(e,t){let n=document.getElementById(e);if(!n)return;let r=n.innerText;try{await navigator.clipboard.writeText(r)}catch{let e=document.createElement(`textarea`);e.value=r,document.body.appendChild(e),e.select();try{document.execCommand(`copy`)}catch{}document.body.removeChild(e)}let i=t.innerText;t.innerText=`Copied!`,setTimeout(()=>{t.innerText=i},1600)}document.addEventListener(`click`,e=>{let t=e.target instanceof Element?e.target:null;if(!t)return;let n=t.closest(`[data-action]`);if(!n)return;let i=n.getAttribute(`data-action`);if(i===`toggle-theme`)r();else if(i===`toggle-menu`)document.getElementById(`mobile-menu`)?.classList.toggle(`hidden`);else if(i===`close-menu`)a();else if(i===`toggle-panel`){let e=n.getAttribute(`data-target`);document.getElementById(e)?.classList.toggle(`hidden`)}else i===`copy-bibtex`?o(n.getAttribute(`data-target`),n):i===`scroll-top`&&window.scrollTo({top:0,behavior:`smooth`})}),document.addEventListener(`astro:page-load`,()=>{n(localStorage.theme===`dark`||!(`theme`in localStorage)&&window.matchMedia(`(prefers-color-scheme: dark)`).matches),i(),a()}),document.addEventListener(`astro:before-swap`,e=>{let t=localStorage.theme===`dark`||!(`theme`in localStorage)&&window.matchMedia(`(prefers-color-scheme: dark)`).matches;e.newDocument.documentElement.classList.toggle(`dark`,t)});</script></body></html>
